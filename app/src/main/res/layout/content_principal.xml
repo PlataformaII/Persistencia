@@ -95,4 +95,23 @@
             android:hint="10.0"
             android:inputType="numberDecimal" />
     </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Guardar"
+            android:id="@+id/btnGuardar"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Cargar"
+            android:id="@+id/btnCargar"
+            android:layout_weight="1" />
+    </TableRow>
 </TableLayout>
