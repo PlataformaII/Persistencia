@@ -92,6 +92,7 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
         edit.putBoolean("suscrito", chkBoxSuscrito.isChecked());
         edit.putInt("edad",Integer.parseInt(edtTxtEdad.getText().toString()));
         edit.putFloat("temp",Float.parseFloat(edtTxtTemperatura.getText().toString()));
+        edit.commit();
     }
     public void cargarPreferencias(){
         edtTxtNombre.setText(pref.getString("nombre","Sutano"));
