@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 public class Principal extends AppCompatActivity implements View.OnClickListener{
+    private FloatingActionButton btn;
     private EditText edtTxtNombre,edtTxtEdad,edtTxtTemperatura;
     private CheckBox chkBoxSuscrito;
     private Button btnGuardar,btnCargar;
@@ -31,6 +32,7 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.isInEditMode();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
