@@ -22,7 +22,16 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
     private SharedPreferences pref;
     //para guardar los datos.
     private SharedPreferences.Editor edit;
+    //COSNTANTES
     public static final int PRIVADO=0;
+    public static final String NOMBREKEY="nombre";
+    public static final String SUSCRITOKEY="suscrito";
+    public static final String EDADKEY="edad";
+    public static final String TEMPKEY="temp";
+    public static final String NOMBREValorPD="Fulanito";
+    public static final boolean SUSCRITOValorPD=false;
+    public static final int EDADValorPD=0;
+    public static final float TEMPValorPD=0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,17 +99,17 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
         //aquí iniciamos un método de persistencia
     }
     public void guardarPreferencias(){
-        edit.putString("nombre",edtTxtNombre.getText().toString());
-        edit.putBoolean("suscrito", chkBoxSuscrito.isChecked());
-        edit.putInt("edad",Integer.parseInt(edtTxtEdad.getText().toString()));
-        edit.putFloat("temp",Float.parseFloat(edtTxtTemperatura.getText().toString()));
+        edit.putString(NOMBREKEY,edtTxtNombre.getText().toString());
+        edit.putBoolean(SUSCRITOKEY, chkBoxSuscrito.isChecked());
+        edit.putInt(EDADKEY,Integer.parseInt(edtTxtEdad.getText().toString()));
+        edit.putFloat(TEMPKEY,Float.parseFloat(edtTxtTemperatura.getText().toString()));
         edit.commit();
     }
     public void cargarPreferencias(){
-        edtTxtNombre.setText(pref.getString("nombre","Sutano"));
-        chkBoxSuscrito.setChecked(pref.getBoolean("suscrito", false));
-        edtTxtEdad.setText("" + pref.getInt("edad", 0));
-        edtTxtTemperatura.setText(""+pref.getFloat("temp",0f));
+        edtTxtNombre.setText(pref.getString(NOMBREKEY,NOMBREValorPD));
+        chkBoxSuscrito.setChecked(pref.getBoolean(SUSCRITOKEY, SUSCRITOValorPD));
+        edtTxtEdad.setText("" + pref.getInt(EDADKEY, EDADValorPD));
+        edtTxtTemperatura.setText(""+pref.getFloat(TEMPKEY,TEMPValorPD));
     }
 
     //en este método guardamos preferencias.
