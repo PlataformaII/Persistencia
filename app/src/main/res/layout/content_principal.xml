@@ -21,7 +21,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/txtVwId"
             android:layout_weight="1"
-            android:gravity="right" />
+            android:gravity="right"
+            android:text="ID"
+            />
 
         <EditText
             android:layout_width="0dp"
@@ -131,6 +133,20 @@
             android:text="Cargar"
             android:id="@+id/btnCargar"
             android:layout_weight="1" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Borrar Datos"
+            android:id="@+id/btnBorrarD"
+            android:layout_weight="1"
+            android:onClick="clickLimpiar"
+            />
     </TableRow>
 
 </TableLayout>

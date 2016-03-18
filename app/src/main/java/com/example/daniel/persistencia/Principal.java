@@ -12,6 +12,15 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Principal extends AppCompatActivity implements View.OnClickListener{
     private FloatingActionButton btn;
@@ -22,6 +31,7 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
     private SharedPreferences pref;
     //para guardar los datos.
     private SharedPreferences.Editor edit;
+    private File archivo;
     //COSNTANTES
     public static final int PRIVADO=0;
     public static final String NOMBREKEY="nombre";
@@ -32,6 +42,7 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
     public static final boolean SUSCRITOValorPD=false;
     public static final int EDADValorPD=0;
     public static final float TEMPValorPD=0f;
+    public static final String CADENAVACIA="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +71,13 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
         btnGuardar.setOnClickListener(this);
         btnCargar.setOnClickListener(this);
 
+        /*
         pref=getPreferences(PRIVADO);
         edit=pref.edit();
-
-        cargarPreferencias();
-
-    }
+        cargarPreferencias();*/
+        archivo = new File(getFilesDir(),"archivo.txt");
+        cargarArchivo();
+    }//fin del método onCreate
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -92,30 +104,82 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
     if (v==btnGuardar){
-        guardarPreferencias();
-    }else{
-        cargarPreferencias();
+        //guardarPreferencias();
+        guardarArchivo();
+    }else if (v==btnCargar){
+        //cargarPreferencias();
+        cargarArchivo();
     }
         //aquí iniciamos un método de persistencia
-    }
+    }//fin del método onClick
+
+    public void clickLimpiar(View v){
+        edtTxtNombre.setText(CADENAVACIA);
+        chkBoxSuscrito.setChecked(SUSCRITOValorPD);
+        edtTxtEdad.setText(CADENAVACIA);
+        edtTxtTemperatura.setText(CADENAVACIA);
+    }//fin del método clickLimpiar
+    /*
     public void guardarPreferencias(){
         edit.putString(NOMBREKEY,edtTxtNombre.getText().toString());
         edit.putBoolean(SUSCRITOKEY, chkBoxSuscrito.isChecked());
-        edit.putInt(EDADKEY,Integer.parseInt(edtTxtEdad.getText().toString()));
-        edit.putFloat(TEMPKEY,Float.parseFloat(edtTxtTemperatura.getText().toString()));
+        edit.putInt(EDADKEY, Integer.parseInt(edtTxtEdad.getText().toString()));
+        edit.putFloat(TEMPKEY, Float.parseFloat(edtTxtTemperatura.getText().toString()));
         edit.commit();
     }
     public void cargarPreferencias(){
-        edtTxtNombre.setText(pref.getString(NOMBREKEY,NOMBREValorPD));
+        edtTxtNombre.setText(pref.getString(NOMBREKEY, NOMBREValorPD));
         chkBoxSuscrito.setChecked(pref.getBoolean(SUSCRITOKEY, SUSCRITOValorPD));
-        edtTxtEdad.setText("" + pref.getInt(EDADKEY, EDADValorPD));
-        edtTxtTemperatura.setText(""+pref.getFloat(TEMPKEY,TEMPValorPD));
+        edtTxtEdad.setText(CADENAVACIA + pref.getInt(EDADKEY, EDADValorPD));
+        edtTxtTemperatura.setText(CADENAVACIA + pref.getFloat(TEMPKEY, TEMPValorPD));
+    }*/
+
+    private void cargarArchivo() {
+        Toast.makeText(getApplicationContext(),"A ver si funciona",Toast.LENGTH_SHORT).show();
+    try {
+        BufferedReader bf= new BufferedReader(new FileReader(archivo));
+        edtTxtNombre.setText(bf.readLine());
+        boolean b=bf.readLine().equals("1");
+        chkBoxSuscrito.setChecked(b);
+        edtTxtEdad.setText(bf.readLine());
+        edtTxtTemperatura.setText(bf.readLine());
+        bf.close();
+    }catch (FileNotFoundException e){
+        Toast.makeText(getApplicationContext(),"No se encontro archivo", Toast.LENGTH_SHORT).show();
+        edtTxtNombre.setText(NOMBREValorPD);
+        chkBoxSuscrito.setChecked(SUSCRITOValorPD);
+        edtTxtEdad.setText(CADENAVACIA+EDADValorPD);
+        edtTxtTemperatura.setText(CADENAVACIA+TEMPValorPD);
+    }catch (IOException e){
+        e.printStackTrace();
+    }
+    }//fin del método cargarArchivo()
+
+    public void guardarArchivo(){
+        try {
+            BufferedWriter bw=new BufferedWriter(new FileWriter(archivo));
+            bw.write(edtTxtNombre.getText().toString());
+            bw.newLine();
+            if (chkBoxSuscrito.isChecked()){
+                bw.write("1");
+            }else {
+                bw.write("0");
+            }bw.newLine();
+            bw.write(edtTxtEdad.getText().toString());
+            bw.newLine();
+            bw.write(edtTxtTemperatura.getText().toString());
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     //en este método guardamos preferencias.
     @Override
     protected void onStop() {
         super.onStop();
-        guardarPreferencias();
-    }
-}
+        //guardarPreferencias();
+        guardarArchivo();
+    }//fin del metodo onStop
+}//fin de la clase Principal
